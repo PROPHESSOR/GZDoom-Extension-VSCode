@@ -5,8 +5,7 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { ExtensionContext, window, workspace, commands, Uri, TextDocument } from "vscode";
-import * as vscode from 'vscode';
+import { ExtensionContext, window, workspace, commands, Uri } from "vscode";
 import { WadTreeDataProvider } from "./WadTreeDataProvider";
 
 export function register(context: ExtensionContext) {
@@ -16,7 +15,6 @@ export function register(context: ExtensionContext) {
   workspace.registerTextDocumentContentProvider('wad', wadTreeDataProvider);
 
   commands.registerCommand('wadexplorer.exploreWadFile', async (uri: Uri) => {
-    console.log('wadexplorer.exploreWadFile', uri);
     await wadTreeDataProvider.openWad(uri);
   });
 
@@ -29,9 +27,10 @@ export function register(context: ExtensionContext) {
 
     if (!lumps?.length) return;
 
+    // TODO: Add indexes to determine the lump of lumps that have the same name
     const lumpData = lumps[0].read().buffer.toString('utf8');
 
-    const doc = await vscode.workspace.openTextDocument({ content: lumpData });
-    await vscode.window.showTextDocument(doc, 1, false);
+    const doc = await workspace.openTextDocument({ content: lumpData });
+    await window.showTextDocument(doc, 1, false);
   });
 }

@@ -5,10 +5,9 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { EventEmitter, Event, TextDocumentContentProvider, TreeDataProvider, workspace, Uri, TreeItem, CancellationToken, ProviderResult, FileSystemError } from "vscode";
+import { EventEmitter, Event, TextDocumentContentProvider, TreeDataProvider, workspace, Uri, TreeItem, CancellationToken, ProviderResult } from "vscode";
 import ByteTools from "./ByteTools";
-import { WadLump, WadParser } from "./WadParser";
-import { join } from 'path';
+import { WadParser } from "./WadParser";
 
 export class WadTreeDataProvider implements TreeDataProvider<TreeItem>, TextDocumentContentProvider {
   private _onDidChangeTreeData: EventEmitter<any> = new EventEmitter<any>();
@@ -36,60 +35,35 @@ export class WadTreeDataProvider implements TreeDataProvider<TreeItem>, TextDocu
     console.warn('openWad', fileUri);
     this.wadUri = fileUri.path;
     const buffer = await workspace.fs.readFile(fileUri);
-    console.warn('openWad', buffer);
     this.wad = new WadParser(new ByteTools(buffer as Buffer));
-    console.warn('openWad', this.wad);
     await this.wad.parse();
     this._onDidChangeTreeData.fire(null);
-    console.warn('openWad OK');
   }
 
   public clear() {
     this.wad = null;
+    this.wadUri = null;
     this._onDidChangeTreeData.fire(null);
   }
 
   public getTreeItem(element: TreeItem): TreeItem {
-    console.log('getTreeItem', element);
-    element.command = {
-      command: 'openWadResource',
-      arguments: [String(element.label)],
-      title: 'Open WAD Resource'
-    }
+    if (this.wad?.lumps)
+      element.command = {
+        command: 'openWadResource',
+        arguments: [String(element.label)],
+        title: 'Open WAD Resource'
+      }
+
     return element;
-    // let command = undefined;
-
-    // command = {
-    //   command: 'openWadResource',
-    //   arguments: [Uri.from({
-    //     scheme: 'wad',
-    //     path: join(element.name)
-    //   })],
-    //   title: 'Open WAD Resource'
-    // }
-
-    // return {
-    //   label: element.name,
-    //   collapsibleState: void 0,
-    //   command: command,
-    //   // iconPath: this.getIcon(element),
-    //   // contextValue: this.getType(element)
-    // }
   }
 
   getChildren(element?: TreeItem): ProviderResult<TreeItem[]> {
-    console.log('getChilren', element);
-
     if (!this.wad?.lumps) {
       console.warn('no wad loaded');
       return [new TreeItem('No WAD file opened! Use "Context menu -> Explore Wad File" on a WAD file you would like to explore.')];
     }
 
-    // if (!element) {
     return this.wad.lumps.map((x): TreeItem => new TreeItem(x.name));
-    // }
-
-    // return element.children;
   }
 
   public provideTextDocumentContent(uri: Uri, token: CancellationToken): ProviderResult<string> {

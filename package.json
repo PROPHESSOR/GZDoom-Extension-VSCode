@@ -803,62 +803,30 @@
         ],
         "commands": [
             {
-                "command": "wadexplorer.extractFiles",
-                "title": "Extract Files ..."
-            },
-            {
-                "command": "wadexplorer.extractHere",
-                "title": "Extract Here"
-            },
-            {
-                "command": "wadexplorer.extractElement",
-                "title": "Extract Element ..."
-            },
-            {
                 "command": "wadexplorer.exploreWadFile",
                 "title": "Explore Wad File"
             },
             {
                 "command": "wadexplorer.clear",
-                "title": "Clear view"
+                "title": "Close WAD file"
             },
             {
                 "command": "openWadResource",
-                "title": "Open WAD Resource"
+                "title": "View WAD Resource"
             }
         ],
         "menus": {
             "explorer/context": [
                 {
-                    "command": "wadexplorer.extractFiles",
-                    "when": "resourceLangId == wad",
-                    "group": "0_wad@1"
-                },
-                {
-                    "command": "wadexplorer.extractHere",
-                    "when": "resourceLangId == wad",
-                    "group": "0_wad@2"
-                },
-                {
                     "command": "wadexplorer.exploreWadFile",
                     "when": "resourceLangId == wad",
-                    "group": "0_wad@3"
+                    "group": "0_wad@1"
                 }
             ],
             "view/title": [
                 {
                     "command": "wadexplorer.clear",
                     "when": "view == wadExplorer"
-                }
-            ],
-            "view/item/context": [
-                {
-                    "command": "wadexplorer.extractElement",
-                    "when": "view == wadExplorer && viewItem != wad"
-                },
-                {
-                    "command": "wadexplorer.extractFiles",
-                    "when": "view == wadExplorer && viewItem == wad"
                 }
             ]
         },
