@@ -200,7 +200,7 @@
                 {
                     "name": "entity.other.default.block.zscript",
                     "begin": "(?i)(?<=^\\s*?\\bdefault\\b)",
-                    "end": "(?<=^)\\s}",
+                    "end": "}",
                     "patterns": [
                         {
                             "include": "#comments"
@@ -234,7 +234,7 @@
                 {
                     "name": "entity.other.states.block.zscript",
                     "begin": "(?i)(?<=^\\s*?\\bstates\\b)",
-                    "end": "(?<=^)}",
+                    "end": "(?=})",
                     "patterns": [
                         {
                             "include": "#comments"
@@ -283,7 +283,7 @@
                 {
                     "name": "entity.other.enum.zscript",
                     "begin": "(?<=enum\\s\\w+?\\s$)",
-                    "end": "}",
+                    "end": "(?=})",
                     "patterns": [
                         {
                             "name": "constant.enum.value.zscript",
