@@ -200,7 +200,7 @@
                 {
                     "name": "entity.other.default.block.zscript",
                     "begin": "(?i)(?<=^\\s*?\\bdefault\\b)",
-                    "end": "}",
+                    "end": "(?=})",
                     "patterns": [
                         {
                             "include": "#comments"
