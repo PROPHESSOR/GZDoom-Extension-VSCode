@@ -222,12 +222,20 @@
                             "include": "#keywords"
                         },
                         {
-                            "name": "variable.property.zscript",
-                            "match": "(?<=\\w+?\\.)\\w+?\\b"
+                            "match": "\\b(\\w+?)\\b\\s*(?=\\.)",
+                            "captures": {
+                                "1": {
+                                    "name": "entity.name.class.zscript"
+                                }
+                            }
                         },
                         {
-                            "name": "variable.name.zscript",
-                            "match": "\\b\\w+?\\b"
+                            "match": "\\b(\\w+?)\\b",
+                            "captures": {
+                                "1": {
+                                    "name": "variable.property.zscript"
+                                }
+                            }
                         }
                     ]
                 },
