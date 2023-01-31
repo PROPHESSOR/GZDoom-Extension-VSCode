@@ -206,8 +206,26 @@
                             "include": "#comments"
                         },
                         {
-                            "name": "entity.name.tag.attribute.zscript",
-                            "match": "(?<=\\+|-)\\w+?\\b|(?<=(?<=\\+|-)\\w+?\\.??)\\w+?\\b"
+                            "begin": "(?<=[\\+\\-])",
+                            "end": "(?=$|;)",
+                            "patterns": [
+                                {
+                                    "match": "\\b(\\w+?)\\b\\s*(?=\\.)",
+                                    "captures": {
+                                        "1": {
+                                            "name": "entity.name.class.zscript"
+                                        }
+                                    }
+                                },
+                                {
+                                    "match": "\\b(\\w+?)\\b",
+                                    "captures": {
+                                        "1": {
+                                            "name": "entity.name.tag.attribute.zscript"
+                                        }
+                                    }
+                                }
+                            ]
                         },
                         {
                             "include": "#types"
